@@ -1,4 +1,4 @@
-This codes for some numerical method.
+Codes for some numerical method.
 
 -Tariqul Islam Ponir
 ponir.bd @ hotmail.com
