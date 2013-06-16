@@ -24,13 +24,18 @@
 %h     : the increment of h. for Euler method h should be sufficiently low
 %        in order to have a good result. if a value of h is not passed it
 %        defaults to 0.001.
-%
 
+%{
+-Mohammad Tariqul Islam
+ponir.bd @ hotmail.com
+%}
 function [x,y] = euler_diff_eqn(df,x0,y0,xfrom,xto,h)
+    %if h is not passed h is set
     if nargin < 6
         h=0.001;
     end
-
+    
+    %sorting xto and xfrom and remenbering
     m=0;
     if xfrom > xto
         temp = xfrom;
@@ -39,6 +44,7 @@ function [x,y] = euler_diff_eqn(df,x0,y0,xfrom,xto,h)
         m=1;
     end
     
+    %calculating different ranges stored for three cases
     if x0 <= xfrom && x0 <= xto
         x1 = [];
         x2 = x0:h:xto;
@@ -56,36 +62,48 @@ function [x,y] = euler_diff_eqn(df,x0,y0,xfrom,xto,h)
         x2 = [];
     end
     
+    %dealing x1
     len1 = length(x1);
     y1 = zeros(1,len1);
     
+    %n= 1 or 2 means x1 has been set
     if n==1 || n==2
+        %initializing (x0,y0) pair
         y1(len1) = y0;
-
+        
+        %applying euler's method for each x in x1
         for i=len1-1:-1:1
             y1(i) = y1(i+1) - h*df(x1(i+1),y1(i+1));
         end
         
+        %dropping (x0,y0) pair
         y1 = y1(1:len1-1);
         x1 = x1(1:len1-1);
     end
     
+    %dealing with x2
     len2 = length(x2);
     y2 = zeros(1,len2);
     
+    %n=0 or 1 means x2 is set and have to dealt
     if n==1 || n==0
+        %initializing x0,y0
         y2(1) = y0;
 
+        %for each x in xi euler's method is applied
         for i=2:len2
             y2(i) = y2(i-1) + h*df(x2(i-1),y2(i-1));
         end
     end
     
+    %generating x and y pairs
     y = [y1 y2];
     x = [x1 x2];
     
+    %getting length of x
     len = length(x);
     
+    %obtaining the index of xform
     for i=1:len
         if x(i) >= xfrom
             j1 = i;
@@ -93,6 +111,7 @@ function [x,y] = euler_diff_eqn(df,x0,y0,xfrom,xto,h)
         end
     end
     
+    %obtaining the index of xto
     for i=len:-1:1
         if x(i) <= xto
             j2 = i;
@@ -100,6 +119,9 @@ function [x,y] = euler_diff_eqn(df,x0,y0,xfrom,xto,h)
         end
     end
     
+    %cutting from xfrom-xto
+    %if m=1, i.e-xfrom and xto was swapped, the x,y pairs are reversed
+    %otherwise they are the same
     if m
         x=x(j2:-1:j1);
         y=y(j2:-1:j1);
