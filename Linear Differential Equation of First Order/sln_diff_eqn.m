@@ -1,11 +1,11 @@
-%IMPR_EULER_DIFF_EQN
+%SLN_DIFF_EQN
 %
 %Calculates solution to first order linear differential equaltion
-%with initial value problem. It uses improved Euler Method. And uses
-%Secant Solution to solve the non-linear equation.
+%with initial value problem. It uses Solution Method.
+%Secant Method to solve the non-linear equation.
 %
 %Calling Method:
-%[x,y] = impr_euler_diff_eqn(df,x0,y0,xfrom,xto,h)
+%[x,y] = sln_diff_eqn(df,x0,y0,xfrom,xto,h)
 %
 %Input Arguments:
 %df    : It is the differential equation. It should be a function handle.
@@ -20,7 +20,7 @@
 %        solution is known.
 %xfrom : we want the values from this point
 %xto   : to this point for variable x or t
-%h     : the increment of h. for improved Euler method h=0.01 gives
+%h     : the increment of h. for this method method h=0.01 gives
 %        remarkebly good reasult for most functions. if a value of h is not
 %        passed h=0.01 is assumed.
 %
@@ -31,7 +31,7 @@ ponir.bd @ hotmail.com
 %}
 
 
-function [x,y] = impr_euler_diff_eqn(df,x0,y0,xfrom,xto,h)
+function [x,y] = sln_diff_eqn(df,x0,y0,xfrom,xto,h)
     %if h is not passed h is set
     if nargin<6
         h=0.01;
@@ -76,7 +76,7 @@ function [x,y] = impr_euler_diff_eqn(df,x0,y0,xfrom,xto,h)
         %value of h is negetive
         hm = -h;
         
-        %improved euler method for each of x in x1
+        %solution method for each of x in x1
         for i=len1-1:-1:1
            %function/equation to be solved for y1
            f= @(z) (hm/2*(df(x1(i+1),y1(i+1)) + df(x1(i),z))+y1(i+1) - z);
@@ -98,9 +98,9 @@ function [x,y] = impr_euler_diff_eqn(df,x0,y0,xfrom,xto,h)
         %setting x0,y0 pair
         y2(1) = y0;
         
-        %improved euler method for each of x in x2
+        %solution method for each of x in x2
         for i=2:len2
-            %equation to be solved for y1
+            %equation to be solved for z=y1
             f= @(z) (h/2*(df(x2(i-1),y2(i-1)) + df(x2(i),z))+y2(i-1) - z);
             %solving y1
             y2(i) = secant_solution(f,1,2);
