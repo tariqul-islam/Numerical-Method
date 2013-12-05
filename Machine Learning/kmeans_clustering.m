@@ -101,7 +101,7 @@ function g_u = kmeans_clustering(X,K,SPACE)
             iter=iter+1;
         end
         
-        disp(chk_val);
+        %disp(chk_val);
         if chk_val<g_min
             g_u=u;
             g_min=chk_val;
