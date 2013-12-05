@@ -53,6 +53,11 @@ function [w,Ein,Eout] = regression_la(Xin,Yin,Xout,Yout,lambda,dimension)
         error('not enough input arguments');
     end
     
+    [~,dx] = size(Xin);
+    if nargin<6
+        dimension=dx-1;
+    end
+    
     %checks the data
     [Xin,Yin,d] = data_sanity_check(Xin,Yin,dimension,'in traindata: ');
 
