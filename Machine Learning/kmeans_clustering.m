@@ -1,4 +1,4 @@
-function u = kmeans_clustering(X,K,SPACE)
+function g_u = kmeans_clustering(X,K,SPACE)
 %u=kmeans_clustering(X,K,SPACE)
 %X
 %   Each vector in row
@@ -32,7 +32,7 @@ function u = kmeans_clustering(X,K,SPACE)
         error(['Cannot cluster ' num2str(nx) ' points in ' num2str(K) ' cluster']);
     end
     
-    u=SPACE(1)+rand(K,dx)*(SPACE(2)-SPACE(1));
+    u=zeros(K,dx);
     SK = [];
     S=zeros(K,nx);
     
@@ -79,22 +79,34 @@ function u = kmeans_clustering(X,K,SPACE)
         end
     end
 
-    update_cluster();
-
-    chk_val=check_value();
-    old_chk_val=10^30;
-    
-    iter=0;
-    while abs(chk_val-old_chk_val)<10^-10
-        update_u();
+    g_u=[];
+    g_min=10^30;
+    for gi=1:100
+        u=SPACE(1)+rand(K,dx)*(SPACE(2)-SPACE(1));
         update_cluster();
-        old_chk_val=chk_val;
+
         chk_val=check_value();
-        if iter==1000
-            warning('maximum iterations reached');
-            break;
+        old_chk_val=10^30;
+
+        iter=0;
+        while abs(chk_val-old_chk_val)<10^-10
+            update_u();
+            update_cluster();
+            old_chk_val=chk_val;
+            chk_val=check_value();
+            if iter==1000
+                warning('maximum iterations reached');
+                break;
+            end
+            iter=iter+1;
         end
-        iter=iter+1;
+        
+        disp(chk_val);
+        if chk_val<g_min
+            g_u=u;
+            g_min=chk_val;
+            
+        end
     end
     %iter=iter+2;
 end
