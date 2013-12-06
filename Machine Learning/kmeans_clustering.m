@@ -89,7 +89,7 @@ function g_u = kmeans_clustering(X,K,SPACE)
         old_chk_val=10^30;
 
         iter=0;
-        while abs(chk_val-old_chk_val)<10^-10
+        while abs(chk_val-old_chk_val)>10^-10
             update_u();
             update_cluster();
             old_chk_val=chk_val;
